@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL") 
+}
+
+
+
+enum AuthProvider {
+  credentials 
+  google
+}
+
+model User {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  email         String       @unique
+  name          String?
+  avatarUrl     String?
+
+ 
+  password      String?      
+  provider      AuthProvider @default(credentials)
+  emailVerified DateTime?    
+
+  sessions      Session[]
+  characters     Character[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+
+
+model Character {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String
+  personality  String
+  systemPrompt String
+  avatarUrl    String?
+
+  creatorId String @db.ObjectId
+  creator   User   @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  sessions     Session[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  @@index([creatorId])
+}
+
+model Session {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String    @db.ObjectId
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  characterId String    @db.ObjectId
+
+  character   Character @relation(fields: [characterId], references: [id])
+  summary     String?  
+
+  messages    Message[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([characterId])
+}
+
+enum MessageRole {
+  user
+  character
+}
+
+model Message {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  sessionId String      @db.ObjectId
+  session   Session     @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role      MessageRole 
+  content   String
+  vectorId  String?    
+
+  createdAt DateTime    @default(now())
+
+  @@index([sessionId])
+}

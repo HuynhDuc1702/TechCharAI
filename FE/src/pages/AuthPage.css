@@ -1,0 +1,137 @@
+
+.auth-page {
+  min-height: 100vh;
+  background: #0a0a12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: #13131f;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+
+.auth-card__header {
+  text-align: center;
+}
+
+.auth-card__title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #f1f1f1;
+  margin: 0 0 0.4rem;
+}
+
+.auth-card__sub {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.auth-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.auth-form__label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d1d5db;
+}
+
+.auth-form__optional {
+  font-weight: 400;
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.auth-form__input {
+  background: #0d0d1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  color: #f1f1f1;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auth-form__input::placeholder {
+  color: #4b5563;
+}
+
+.auth-form__input:focus {
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+}
+
+.auth-form__error {
+  font-size: 0.85rem;
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  margin: 0;
+}
+
+.auth-form__submit {
+  margin-top: 0.4rem;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.auth-form__submit:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.auth-form__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+.auth-card__footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.auth-card__link {
+  color: #a855f7;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-card__link:hover {
+  color: #c084fc;
+}

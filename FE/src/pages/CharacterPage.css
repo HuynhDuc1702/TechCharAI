@@ -1,0 +1,225 @@
+
+.char-detail {
+  min-height: 100vh;
+  background: #0a0a12;
+  color: #f1f1f1;
+  padding: 2.5rem 2rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.char-detail--not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  color: #9ca3af;
+  font-size: 1rem;
+}
+
+.char-detail__back {
+  margin-bottom: 2rem;
+}
+
+.char-detail__card {
+  background: #13131f;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  padding: 2.5rem;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.char-detail__avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.char-detail__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.char-detail__name {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0;
+  color: #f1f1f1;
+}
+
+.char-detail__desc {
+  font-size: 0.95rem;
+  color: #9ca3af;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.char-detail__meta {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.char-detail__meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+  color: #d1d5db;
+}
+
+.char-detail__meta-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.char-detail__actions {
+  margin-top: 1.25rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.char-detail__cta {
+  padding: 0.65rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  width: fit-content;
+}
+
+.char-detail__cta:hover {
+  opacity: 0.88;
+}
+
+.char-detail__cta:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.char-detail__cta--ghost {
+  background: transparent;
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  color: var(--accent-primary);
+}
+
+.char-detail__cta--ghost:hover {
+  opacity: 1;
+  border-color: var(--accent-primary);
+  background: rgba(168, 85, 247, 0.08);
+}
+
+/* ── Sessions panel ──────────────────────────────────────────────────────── */
+
+.char-sessions {
+  margin-top: 1.5rem;
+  background: #13131f;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.char-sessions__title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin: 0;
+}
+
+.char-sessions__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 220px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.07) transparent;
+}
+
+.char-sessions__item {
+  display: flex;
+}
+
+.char-sessions__item-btn {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.03);
+  color: #d1d5db;
+  cursor: pointer;
+  font-size: 0.87rem;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  text-align: left;
+}
+
+.char-sessions__item-btn:hover {
+  background: rgba(168, 85, 247, 0.08);
+  border-color: rgba(168, 85, 247, 0.3);
+  color: #f1f1f1;
+}
+
+.char-sessions__item-label {
+  font-weight: 600;
+}
+
+.char-sessions__item-date {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.char-sessions__empty {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .char-detail__card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .char-detail__actions {
+    justify-content: center;
+  }
+  .char-detail__cta {
+    width: 100%;
+  }
+}
