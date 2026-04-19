@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCharacterById, type Character } from "../api/characterApi";
 import {
-  getSessionsByCharacter,
+  getSessionsByCharacterAndUser,
   createSession,
   type Session,
 } from "../api/chatApi";
 import "./CharacterPage.css";
+import { useAuth } from "../context/AuthContext";
 
 export default function CharacterPage() {
   const { id } = useParams<{ id: string }>();
@@ -18,6 +19,7 @@ export default function CharacterPage() {
   const [sessionsLoading, setSessionsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
+  const { isLoggedIn } = useAuth();
 
   // Fetch character detail
   useEffect(() => {
@@ -31,7 +33,7 @@ export default function CharacterPage() {
   // Fetch sessions for this character
   useEffect(() => {
     if (!id) return;
-    getSessionsByCharacter(id)
+    getSessionsByCharacterAndUser(id)
       .then((data) => {
         // Sort by most recent first
         const sorted = [...data].sort(
@@ -48,6 +50,10 @@ export default function CharacterPage() {
     if (!id) return;
     setCreating(true);
     try {
+      if (!isLoggedIn) {
+        navigate("/login");
+        return;
+      }
       const session = await createSession(id);
       navigate(`/chat/${session.id}`);
     } catch {
@@ -102,11 +108,13 @@ export default function CharacterPage() {
 
       {/* ── Character card ─────────────────────────────────────────────── */}
       <section className="char-detail__card">
-        <div className="char-detail__avatar">
+        <div className="char-detail__image-wrapper">
           {character.avatarUrl ? (
-            <img src={character.avatarUrl} alt={character.name} />
+            <img className="char-detail__image" src={character.avatarUrl} alt={character.name} />
           ) : (
-            character.name.charAt(0)
+            <div className="char-detail__image-placeholder">
+              {character.name.charAt(0)}
+            </div>
           )}
         </div>
 

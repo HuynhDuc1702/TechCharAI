@@ -43,8 +43,14 @@ export default function HomePage() {
         <div className="home__grid">
           {characters.map((char) => (
             <article key={char.id} className="char-card" id={`char-card-${char.id}`}>
-              <div className="char-card__avatar">
-                {char.name.charAt(0)}
+              <div className="char-card__image-wrapper">
+                {char.avatarUrl ? (
+                  <img className="char-card__image" src={char.avatarUrl} alt={char.name} />
+                ) : (
+                  <div className="char-card__image-placeholder">
+                    {char.name.charAt(0)}
+                  </div>
+                )}
               </div>
               <div className="char-card__body">
                 <h3 className="char-card__name">{char.name}</h3>

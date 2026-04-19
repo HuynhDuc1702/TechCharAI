@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   getMyCharacters,
@@ -9,6 +9,7 @@ import {
   type CreateCharacterPayload,
   type UpdateCharacterPayload,
 } from "../api/characterApi";
+import { uploadImage } from "../api/uploadApi";
 import "./MyCharactersPage.css";
 
 type FormState = {
@@ -41,6 +42,12 @@ export default function MyCharactersPage() {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
+  // Image upload state
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   // Confirmation delete
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -64,6 +71,8 @@ export default function MyCharactersPage() {
     setEditingId(null);
     setForm(emptyForm);
     setFormError(null);
+    setAvatarFile(null);
+    setAvatarPreview(null);
     setShowForm(true);
   };
 
@@ -78,6 +87,8 @@ export default function MyCharactersPage() {
       avatarUrl: char.avatarUrl ?? "",
     });
     setFormError(null);
+    setAvatarFile(null);
+    setAvatarPreview(char.avatarUrl ?? null);
     setShowForm(true);
   };
 
@@ -86,6 +97,15 @@ export default function MyCharactersPage() {
     setEditingId(null);
     setForm(emptyForm);
     setFormError(null);
+    setAvatarFile(null);
+    setAvatarPreview(null);
+  };
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setAvatarFile(file);
+    setAvatarPreview(URL.createObjectURL(file));
   };
 
   const handleFormChange = (
@@ -100,13 +120,21 @@ export default function MyCharactersPage() {
     setSubmitting(true);
 
     try {
+      // Upload new avatar first if a file was selected
+      let resolvedAvatarUrl = form.avatarUrl || undefined;
+      if (avatarFile) {
+        setUploading(true);
+        resolvedAvatarUrl = await uploadImage(avatarFile);
+        setUploading(false);
+      }
+
       if (editingId) {
         const payload: UpdateCharacterPayload = {
           name: form.name,
           description: form.description,
           personality: form.personality,
           systemPrompt: form.systemPrompt,
-          avatarUrl: form.avatarUrl || undefined,
+          avatarUrl: resolvedAvatarUrl,
         };
         await updateCharacter(editingId, payload);
       } else {
@@ -115,13 +143,14 @@ export default function MyCharactersPage() {
           description: form.description,
           personality: form.personality,
           systemPrompt: form.systemPrompt,
-          avatarUrl: form.avatarUrl || undefined,
+          avatarUrl: resolvedAvatarUrl,
         };
         await createCharacter(payload);
       }
       closeForm();
       fetchMyCharacters();
     } catch (err: any) {
+      setUploading(false);
       const msg =
         err?.response?.data?.message ?? "Something went wrong. Try again.";
       setFormError(msg);
@@ -310,19 +339,37 @@ export default function MyCharactersPage() {
               </div>
 
               <div className="char-form__group">
-                <label htmlFor="char-avatar-url" className="char-form__label">
-                  Avatar URL{" "}
+                <label className="char-form__label">
+                  Avatar Image{" "}
                   <span className="char-form__label-optional">(optional)</span>
                 </label>
+
+                {/* Preview */}
+                {avatarPreview && (
+                  <div className="char-form__avatar-preview">
+                    <img src={avatarPreview} alt="Avatar preview" />
+                  </div>
+                )}
+
                 <input
-                  id="char-avatar-url"
-                  name="avatarUrl"
-                  type="url"
-                  className="char-form__input"
-                  placeholder="https://…"
-                  value={form.avatarUrl}
-                  onChange={handleFormChange}
+                  id="char-avatar-file"
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleAvatarChange}
                 />
+                <button
+                  type="button"
+                  className="btn btn--ghost"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                >
+                  {avatarPreview ? "Change Image" : "Choose Image"}
+                </button>
+                {uploading && (
+                  <span className="char-form__upload-status">Uploading…</span>
+                )}
               </div>
 
               {formError && (
