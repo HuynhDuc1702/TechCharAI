@@ -108,6 +108,7 @@ BE/
 │   │   ├── characterRepository.ts
 │   │   ├── chatRepository.ts
 │   │   ├── messageRepository.ts
+│   │   ├── vectorRepository.ts
 │   │   └── userRepository.ts
 │   ├── routes/               # API Route definitions
 │   │   ├── characterRoutes.ts
@@ -120,6 +121,7 @@ BE/
 │   │   ├── characterService.ts
 │   │   ├── chatService.ts
 │   │   ├── messageService.ts
+│   │   ├── vectorService.ts
 │   │   └── llm/
 │   │       ├── llmService.ts
 │   │       ├── providers/

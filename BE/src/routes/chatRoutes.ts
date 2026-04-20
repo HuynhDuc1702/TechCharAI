@@ -1,12 +1,12 @@
 import { Router } from "express";
-import * as chatController from "../controllers/chatController";
+import * as sessionController from "../controllers/sessionController";
 import { authToken } from "../middleware/authToken";
 
 const router = Router();
 
-router.get("/character/:characterId", authToken, chatController.getSessionsByCharacterAndUser);
-router.get("/:id", authToken, chatController.getSession);
-router.post("/", authToken, chatController.createSession);
-router.delete("/:id", authToken, chatController.deleteSession);
+router.get("/character/:characterId", authToken, sessionController.getSessionsByCharacterAndUser);
+router.get("/:id", authToken, sessionController.getSession);
+router.post("/", authToken, sessionController.createSession);
+router.delete("/:id", authToken, sessionController.deleteSession);
 
 export default router;

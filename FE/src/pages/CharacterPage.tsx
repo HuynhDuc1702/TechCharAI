@@ -4,8 +4,9 @@ import { getCharacterById, type Character } from "../api/characterApi";
 import {
   getSessionsByCharacterAndUser,
   createSession,
+  deleteSession,
   type Session,
-} from "../api/chatApi";
+} from "../api/sessionApi";
 import "./CharacterPage.css";
 import { useAuth } from "../context/AuthContext";
 
@@ -166,10 +167,11 @@ export default function CharacterPage() {
         ) : (
           <ul className="char-sessions__list">
             {sessions.map((s, idx) => (
-              <li key={s.id} className="char-sessions__item">
+              <li key={s.id} className="char-sessions__item" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <button
                   className="char-sessions__item-btn"
                   onClick={() => navigate(`/chat/${s.id}`)}
+                  style={{ flex: 1 }}
                 >
                   <span className="char-sessions__item-label">
                     Session {sessions.length - idx}
@@ -177,6 +179,23 @@ export default function CharacterPage() {
                   <span className="char-sessions__item-date">
                     {formatDate(s.updatedAt)}
                   </span>
+                </button>
+                <button
+                  className="btn"
+                  style={{ padding: '0.4rem 0.5rem', background: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', border: 'none' }}
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    if (!window.confirm("Are you sure you want to delete this session?")) return;
+                    try {
+                      await deleteSession(s.id);
+                      setSessions(prev => prev.filter(session => session.id !== s.id));
+                    } catch (err) {
+                      console.error("Failed to delete session", err);
+                    }
+                  }}
+                  title="Delete Session"
+                >
+                  🗑
                 </button>
               </li>
             ))}
