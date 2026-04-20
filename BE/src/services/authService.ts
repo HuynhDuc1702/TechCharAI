@@ -91,14 +91,14 @@ export const registerService = async (data: RegisterDTO) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         data.password = hashedPassword;
-        //Map dto to model
-        const userInput = mapper.mapRegisterDTOToUser(data, hashedPassword);
+
 
 
         const newUser = await userRepo.createUser({
             emailVerified: new Date(),
-            ...userInput,
+            ...data,
         });
+
         return {
             message: "Registeration sucessfully"
         };

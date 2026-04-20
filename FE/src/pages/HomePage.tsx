@@ -59,18 +59,12 @@ export default function HomePage() {
               <div className="char-card__actions">
                 <button
                   id={`char-detail-btn-${char.id}`}
-                  className="btn btn--ghost"
-                  onClick={() => navigate(`/character/${char.id}`)}
-                >
-                  View
-                </button>
-                <button
-                  id={`char-chat-btn-${char.id}`}
                   className="btn btn--primary"
-                  onClick={() => navigate(`/chat/${char.id}`)}
+                  onClick={() => navigate(`/character/${char.id}`)}
                 >
                   Chat
                 </button>
+
               </div>
             </article>
           ))}

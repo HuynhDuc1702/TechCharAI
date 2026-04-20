@@ -1,10 +1,13 @@
 import { Router } from "express";
-// import * as messageController from "../controllers/messageController";
+import * as messageController from "../controllers/messageController";
+import { authToken } from "../middleware/authToken";
 
 const router = Router();
 
-// TODO: Implement messageController and uncomment below routes
-// router.get("/:chatId", messageController.getMessagesForChat);
-// router.post("/", messageController.sendMessage);
+
+router.get("/:chatId", authToken, messageController.getMessagesForChat);
+router.post("/:characterId", authToken, messageController.sendMessage);
+router.put("/:id", authToken, messageController.editMessage);
+router.delete("/:chatId", authToken, messageController.deleteMessages);
 
 export default router;
