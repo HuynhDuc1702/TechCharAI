@@ -29,8 +29,7 @@ export const sendMessage = async (data: CreateMessageDTO) => {
     try {
 
         console.log("Sent message data:", data);
-        //Save the user message into database first
-        const createdUserMessage = await messageRepo.sendMessage(data);
+
 
         //Search similar message to this message from vectorDB
         const ids = await searchVector(data.content, data.sessionId);
@@ -45,9 +44,12 @@ export const sendMessage = async (data: CreateMessageDTO) => {
             content: message.content
         }));
 
+
         //get the response from LLM
         const responseContent = await getResponse(data.content, data.characterId, messageHistory);
 
+        //Save the user message into database
+        const createdUserMessage = await messageRepo.sendMessage(data);
         //Save the AI message into database
         const createdAIMessage = await messageRepo.sendMessage({
             content: responseContent,
