@@ -41,7 +41,7 @@ export const sendMessage = async (data: CreateMessageDTO) => {
 
         const messageHistory = [...similarMessages, ...lastMessages].map((message) => ({
             role: message.role,
-            content: message.content
+            content: message.content,
         }));
 
 
